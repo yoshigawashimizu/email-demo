@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <el-button type="primary">主要按钮</el-button>
+    <RegisterView></RegisterView>
   </div>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
+import RegisterView from "./views/RegisterView.vue";
 
 export default {
   name: "app",
   components: {
     // HelloWorld
+    RegisterView,
   },
 };
 </script>
