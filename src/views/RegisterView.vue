@@ -14,4 +14,8 @@ export default {
 </script>
 
 <style>
+.register-view {
+  margin: 0 auto;
+  width: 1240px;
+}
 </style>
