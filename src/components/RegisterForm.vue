@@ -25,14 +25,19 @@
       <el-form-item label="メールアドレス" prop="email">
         <el-input v-model.trim="formData.email"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-checkbox-group v-model="formData.adPushStatus">
-          <el-checkbox label="0"> 利用規約 </el-checkbox>
-          <el-checkbox label="1">
-            このウェブサイトからのメール通知を受け取りますか
-          </el-checkbox>
-        </el-checkbox-group>
+
+      <el-form-item label="使用条例" prop="terms">
+        <el-checkbox v-model="formData.terms" label="0">
+          <a href="#">利用規約</a>に同意してください
+        </el-checkbox>
       </el-form-item>
+
+      <el-form-item label="接收广告" prop="receiveAds">
+        <el-checkbox v-model="formData.receiveAds" label="1">
+          このウェブサイトからのメール通知を受け取りますか
+        </el-checkbox>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="submitForm('registerForm')">
           注册
@@ -72,20 +77,22 @@ export default {
             message: "アラビア数字が使えません",
             trigger: ["blur", "change"],
           },
-          // 非法字符
-          {
-            pattern: /^[^/,.;+:"'・!@#$%^&*(){}[]<>\?\|\\]+$/,
-            message: " /,.;+:'!など使えません",
-            trigger: ["blur", "change"],
-          },
           // 非全角字符
           {
+            /* 正则解释:
+            \uFF01-\uFF5E 全角字符范围 */
             pattern: /^[^\uFF01-\uFF5E]+$/,
             message: "半角文字を入力しでください",
             trigger: ["blur", "change"],
           },
           // 中英日
           {
+            /*正则解释: 
+            \u4e00-\u9fa5 匹配中文字符范围
+            A-Za-z 匹配英文字母
+            \u3040-\u309F 匹配平假名字符
+            一-龯ァ-ヴー 更广泛的日文字符范围，涵盖片假名、片假名扩展字符以及一些其他特殊字符
+            */
             pattern: /^[\u4e00-\u9fa5A-Za-z\u3040-\u309F一-龯ァ-ヴー]+$/,
             message: "英語、または日本語を入力してください",
             trigger: ["blur", "change"],
@@ -103,12 +110,6 @@ export default {
           {
             pattern: /^[^\d]+$/,
             message: "アラビア数字が使えません",
-            trigger: ["blur", "change"],
-          },
-          // 非法字符
-          {
-            pattern: /^[^/,.;+:"'・!@#$%^&*(){}[]<>\?\|\\]+$/,
-            message: " /,.;+:'!など使えません",
             trigger: ["blur", "change"],
           },
           // 非全角字符
@@ -133,6 +134,8 @@ export default {
             trigger: "change",
           },
         ],
+
+        // 邮箱
         email: [
           {
             required: true,
@@ -145,6 +148,20 @@ export default {
             trigger: ["blur", "change"],
           },
         ],
+
+        // 使用条例
+        terms: [
+          {
+            required: true,
+            type: "array",
+            min: 1, //
+            message: "利用規約に同意してください",
+            trigger: "change",
+          },
+        ],
+
+        // 是否接收广告
+        receiveAds: [],
       },
     };
   },
