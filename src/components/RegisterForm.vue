@@ -34,7 +34,7 @@
 
       <el-form-item label="接收广告" prop="receiveAds">
         <el-checkbox v-model="formData.receiveAds" label="1">
-          このウェブサイトからのメール通知を受け取りますか
+          このウェブサイトからのメール通知を受け取ります
         </el-checkbox>
       </el-form-item>
 
@@ -161,7 +161,13 @@ export default {
         ],
 
         // 是否接收广告
-        receiveAds: [],
+        receiveAds: [
+          {
+            type: "array",
+            default: [],
+            trigger: "change",
+          },
+        ],
       },
     };
   },
