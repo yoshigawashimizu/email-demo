@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* 1. 基础错误响应信息常量 */
-// const NETWORK_ERROR = '网络请求异常,请稍后重试......'/* 网络错误 */
+const NETWORK_ERROR = '网络请求异常,请稍后重试......'/* 网络错误 */
 
 /* 2. 创建axios实例对象 http */
 const http = axios.create({
@@ -26,24 +26,26 @@ http.interceptors.request.use(function (config) {
 http.interceptors.response.use((response) => {
   // 对响后逻辑
   /* 1. 解构 code:响应码 msg:响应信息 data:响应主体  */
-  // const { code, data, msg } = response.data
-  // console.log('响应对象', response)
-  // console.log('响应码', code)
-  // console.log('响应信息', msg)
-  // console.log('响应主体', data)
-  // // 2. 响应码 1,成功返回数据 
-  // if (code === 1) {
-  //   return data
-  // }
+  const { code, data, msg } = response.data
+  console.log('响应对象', response)
+  console.log('响应码', code)
+  console.log('响应信息', msg)
+  console.log('响应主体', data)
+  // 2. 响应码 1,成功返回数据 
+  if (code === 1) {
+    console.log('request:后台成功返回响应码')
+    alert('邮件发送成功')
+    return response
+  }
   // 3. 响应码非200,单独判断 
-  // else {
-  //   // 例如:网络请求错误
-  //   console.error(msg || NETWORK_ERROR)
-  //   return Promise.reject(msg || NETWORK_ERROR)
-  // }
+  else {
+    // 例如:网络请求错误
+    console.error(msg || NETWORK_ERROR)
+    return Promise.reject(msg || NETWORK_ERROR)
+  }
 
   // 返回响应对象
-  return response
+  // return response
 },
   function (error) {
     // 响应错误逻辑
